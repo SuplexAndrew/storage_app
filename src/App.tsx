@@ -1,26 +1,39 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import useAuth from "./Hooks/useAuth";
+import LoginComponent from "./Components/LoginComponent";
+import StorageComponent from "./Components/Storage/StorageComponent";
+import AdminPanel from "./Components/AdminPanel";
+import useLoading from "./Hooks/useLoading";
+import {Container} from "@mui/material";
+import UserBar from './Components/UserBar';
+import {useRoutes, Link} from "react-router-dom";
+import {RequireAuth} from "./hoc/RequireAuth";
+import MyOrders from "./Components/MyOrders";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    const user = useAuth()
+    const loading: boolean = useLoading()
+    const routing = useRoutes([
+        {path: '/admin', element: <RequireAuth element={<AdminPanel/>}/>},
+        {path: '/orders', element: <RequireAuth element={<MyOrders/>}/>},
+        {path: '/login', element: <LoginComponent/>},
+        {path: '/', element: <RequireAuth element={<StorageComponent/>}/>}
+    ])
+    if (loading) {
+        return <h1>loading</h1>
+    }
+    return (
+        <Container sx={{
+            position: 'fixed',
+            height: '100vh',
+            minWidth: '100vw',
+            m: 0,
+            backgroundColor: '#75b089'
+        }}>
+            {user && <UserBar/>}
+            {routing}
+        </Container>
+    );
 }
 
 export default App;
