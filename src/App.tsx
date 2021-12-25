@@ -2,20 +2,18 @@ import React from 'react';
 import useAuth from "./Hooks/useAuth";
 import LoginComponent from "./Components/LoginComponent";
 import StorageComponent from "./Components/Storage/StorageComponent";
-import AdminPanel from "./Components/AdminPanel";
 import useLoading from "./Hooks/useLoading";
 import {Container} from "@mui/material";
 import UserBar from './Components/UserBar';
-import {useRoutes, Link} from "react-router-dom";
+import {useRoutes} from "react-router-dom";
 import {RequireAuth} from "./hoc/RequireAuth";
-import MyOrders from "./Components/MyOrders";
+import MyProfile from "./Components/MyProfile";
 
 function App() {
     const user = useAuth()
     const loading: boolean = useLoading()
     const routing = useRoutes([
-        {path: '/admin', element: <RequireAuth element={<AdminPanel/>}/>},
-        {path: '/orders', element: <RequireAuth element={<MyOrders/>}/>},
+        {path: '/my', element: <RequireAuth element={<MyProfile/>}/>},
         {path: '/login', element: <LoginComponent/>},
         {path: '/', element: <RequireAuth element={<StorageComponent/>}/>}
     ])

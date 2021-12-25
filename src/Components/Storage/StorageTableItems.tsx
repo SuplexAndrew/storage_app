@@ -1,20 +1,20 @@
-import React, {useEffect} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import {Table, TableBody} from "@mui/material";
 import {useTypedSelector} from "../../Hooks/useTypedSelector";
-import {StorageState} from "../../Models/Storage";
-import {fetchItems} from "../../Store/actions/storage/fetchItems";
+import {StorageState} from "../../Models/Item";
+import {fetchItems} from "../../Store/actions/items/fetchItems";
 import {useDispatch} from "react-redux";
 import StorageTableItemsRow from "./StorageTableItemsRow";
 
 const StorageTableItems = () => {
     const dispatch = useDispatch()
 
-    const {items} = useTypedSelector<StorageState>(state => state.storage)
+    const {items} = useTypedSelector<StorageState>(state => state.items)
+    const loadItems = useCallback(() => dispatch(fetchItems()), [dispatch, fetchItems])
     useEffect(() => {
-        if (!items) {
-            dispatch(fetchItems())
-        }
-    }, [items])
+        loadItems()
+        console.log(items)
+    }, [dispatch, loadItems])
     return (
         <Table>
             <TableBody>

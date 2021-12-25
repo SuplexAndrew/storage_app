@@ -1,21 +1,26 @@
-import React, {FC, useRef} from 'react';
+import React, {FC, useState} from 'react';
 import {TableCell, TableRow, TextField} from "@mui/material";
-import {OrderItem} from "../../Models/Storage";
 import {useDispatch} from "react-redux";
-import useDebounce from "../../Hooks/useDebounce";
+import {OrderItem} from "../../Models/Order";
 
-const StorageTableOrderedItemsRow:FC<{orderItem: OrderItem, index: number}> = ({orderItem, index}) => {
-    const {item, count} = orderItem
+const StorageTableOrderedItemsRow: FC<{ orderItem: OrderItem, index: number }> = ({orderItem, index}) => {
+    const [{item, count}] = useState<OrderItem>(orderItem)
+    // console.log(count)
     const dispatch = useDispatch()
-    const value = useRef<HTMLInputElement>(null)
-    const ChangeCountHandler = useDebounce((value: number) => {
+    const [value, setValue] = useState<number>(count)
+    const ChangeCountHandler = (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
+        const value = Number(event.target.value)
+        setValue(value)
         dispatch({type: 'CHANGE_ORDER_ITEM_COUNT', payload: {item, count: value}})
-    }, 1000)
+    }
     return (
         <TableRow>
             <TableCell>{index}</TableCell>
             <TableCell>{item.name}</TableCell>
-            <TableCell ><TextField variant="standard" defaultValue={count} onChange={ChangeCountHandler} inputRef={value}/></TableCell>
+            <TableCell>
+                <TextField variant="standard" defaultValue={value}
+                                  onChange={ChangeCountHandler}/>
+            </TableCell>
             <TableCell>{count * item.price}</TableCell>
         </TableRow>
     );

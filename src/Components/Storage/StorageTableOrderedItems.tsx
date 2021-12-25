@@ -1,12 +1,11 @@
-import React from 'react';
-import {useTypedSelector} from "../../Hooks/useTypedSelector";
-import {StorageState} from "../../Models/Storage";
-import {Table, TableBody} from "@mui/material";
 import StorageTableOrderedItemsRow from "./StorageTableOrderedItemsRow";
+import {useTypedSelector} from "../../Hooks/useTypedSelector";
+import {Table, TableBody} from "@mui/material";
+import {OrderState} from "../../Models/Order";
+import React from 'react';
 
 const StorageTableOrderedItems = () => {
-    const {ordered} = useTypedSelector<StorageState>(state => state.storage)
-
+    const {ordered} = useTypedSelector<OrderState>(state => state.orders)
     return (
         <Table>
             <TableBody>

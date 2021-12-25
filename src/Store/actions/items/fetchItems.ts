@@ -1,5 +1,5 @@
 import {Dispatch} from "redux";
-import {StorageActionTypes, StorageAction} from "../../../Models/Storage";
+import {StorageActionTypes, StorageAction} from "../../../Models/Item";
 import Api from "../../../Api/Api";
 
 export const fetchItems = () => {

@@ -1,6 +1,6 @@
 import React, {FC} from 'react';
 import {IconButton, TableCell, TableRow} from "@mui/material";
-import {Item} from "../../Models/Storage";
+import {Item} from "../../Models/Item";
 import {useDispatch} from "react-redux";
 
 const StorageTableItemsRow:FC<{item: Item, index: number}> = ({item, index}) => {
@@ -14,7 +14,7 @@ const StorageTableItemsRow:FC<{item: Item, index: number}> = ({item, index}) => 
             <TableCell>{item.name}</TableCell>
             <TableCell>{item.price}</TableCell>
             <TableCell>{item.countOnStorage}</TableCell>
-            <TableCell><IconButton onClick={AddHandler}>+</IconButton></TableCell>
+            <TableCell><IconButton sx={{height: '3.25vh'}} onClick={AddHandler}>+</IconButton></TableCell>
         </TableRow>
     );
 };

@@ -2,7 +2,7 @@ import {Reducer} from "react";
 import {User, UserAction, UserActionTypes, UserState} from "../../Models/User";
 
 const InitialState: UserState = {
-    user: {id: 1, login: '123', role: 1},
+    user: null,
     loading: false,
     error: null,
 }

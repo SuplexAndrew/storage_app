@@ -7,7 +7,6 @@ export const Login = (data: LoginDto) => {
         dispatch({type: UserActionTypes.LOGIN_USER, payload: data})
         try {
             const res = await Api.login(data)
-
             dispatch({
                 type: UserActionTypes.LOGIN_SUCCESS,
                 payload: res
