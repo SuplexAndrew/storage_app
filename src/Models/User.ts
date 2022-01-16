@@ -1,43 +1,16 @@
 export interface LoginDto {
-    login: string;
-    password: string;
+    login: string
+    password: string
 }
+
+export interface Role {
+    id: number
+    name: string
+    value: number
+}
+
 export interface User {
-    id:number,
-    login:string,
-    role:number
+    id: number
+    login: string
+    roles: Role[]
 }
-
-export interface UserState {
-    user: User | null | undefined
-    loading: boolean
-    error: null | string
-}
-
-export enum UserActionTypes {
-    LOGIN_USER = 'LOGIN_USER',
-    LOGOUT_USER = 'LOGOUT_USER',
-    LOGIN_ERROR = 'LOGIN_ERROR',
-    LOGIN_SUCCESS = 'LOGIN_SUCCESS',
-}
-
-interface LoginUserAction {
-    type: UserActionTypes.LOGIN_USER;
-    payload: LoginDto
-}
-
-interface LoginSuccessAction {
-    type: UserActionTypes.LOGIN_SUCCESS;
-    payload: any
-}
-
-interface LoginErrorAction {
-    type: UserActionTypes.LOGIN_ERROR;
-    payload: null | string;
-}
-
-interface LogoutUserAction {
-    type: UserActionTypes.LOGOUT_USER;
-}
-
-export type UserAction = LoginUserAction | LoginErrorAction | LoginSuccessAction | LogoutUserAction

@@ -1,20 +1,18 @@
 import React, {FC} from 'react';
 import {IconButton, TableCell, TableRow} from "@mui/material";
 import {Item} from "../../Models/Item";
-import {useDispatch} from "react-redux";
+import {addToOrder} from "../../Store/slices/orderSlice";
+import {useAppDispatch} from "../../Store";
 
 const StorageTableItemsRow:FC<{item: Item, index: number}> = ({item, index}) => {
-    const dispatch = useDispatch()
-    const AddHandler = () => {
-        dispatch({type: 'ADD_ORDER_ITEM', payload: {item, count: 1}})
-    }
+    const dispatch = useAppDispatch()
     return (
         <TableRow>
             <TableCell>{index}</TableCell>
             <TableCell>{item.name}</TableCell>
             <TableCell>{item.price}</TableCell>
-            <TableCell>{item.countOnStorage}</TableCell>
-            <TableCell><IconButton sx={{height: '3.25vh'}} onClick={AddHandler}>+</IconButton></TableCell>
+            <TableCell>{item.countInStorage}</TableCell>
+            <TableCell><IconButton sx={{height: '3.25vh'}} onClick={() => dispatch(addToOrder(item))}>+</IconButton></TableCell>
         </TableRow>
     );
 };

@@ -1,20 +1,31 @@
 import React, {FC, useState} from 'react';
-import {Box, Button, Modal, TextField} from "@mui/material";
-import {useTypedSelector} from "../../Hooks/useTypedSelector";
-import {StorageState} from "../../Models/Item";
+import {Box, Button} from "@mui/material";
 import ModalCreateItem from "./ModalCreateItem";
+import AdminItems from "./AdminItems";
+import ModalUpdateItem from "./ModalUpdateitem";
+import {Item} from "../../Models/Item";
 
 const AdminPanel: FC = () => {
-    const {items} = useTypedSelector<StorageState>(state => state.items)
     const [openModal, setOpenModal] = useState(false)
-    const handleCloseModal = () => setOpenModal(false)
+    const [openUpdateModal, setOpenUpdateModal] = useState(false)
+    const [editedItem, setEditedItem] = useState<Item | null>(null)
+    const handleCloseModal = () => {
+        setOpenUpdateModal(false)
+        setEditedItem(null)
+        setOpenModal(false)
+    }
+    const HandleEditItem = (item: Item) => {
+        setEditedItem(item)
+        setOpenUpdateModal(true)
+    }
     return (
         <>
-            <Box>
-                <h3>{items ? items.length : '1234'}</h3>
-                <Button onClick={() => setOpenModal(true)}>Modal</Button>
+            <Box sx={{backgroundColor: '#fff', p: 1, m: 1}}>
+                <AdminItems edit={HandleEditItem}/>
+                <Button onClick={() => setOpenModal(true)}>Создать</Button>
             </Box>
             <ModalCreateItem opened={openModal} close={handleCloseModal}/>
+            {editedItem && <ModalUpdateItem item={editedItem} opened={openUpdateModal} close={handleCloseModal}/>}
         </>
 
     );

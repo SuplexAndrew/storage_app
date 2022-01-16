@@ -1,15 +1,16 @@
 import StorageTableOrderedItemsRow from "./StorageTableOrderedItemsRow";
-import {useTypedSelector} from "../../Hooks/useTypedSelector";
 import {Table, TableBody} from "@mui/material";
-import {OrderState} from "../../Models/Order";
 import React from 'react';
+import {useAppSelector} from "../../Hooks/useAppSelector";
+import {OrderItem} from "../../Models/Order";
 
 const StorageTableOrderedItems = () => {
-    const {ordered} = useTypedSelector<OrderState>(state => state.orders)
+    const {orderedItems} = useAppSelector(state => state.order)
+
     return (
         <Table>
             <TableBody>
-                {ordered?.map((item, index )=>
+                {orderedItems?.map((item: OrderItem, index: number) =>
                     <StorageTableOrderedItemsRow key={index} orderItem={item} index={index + 1}/>)
                 }
             </TableBody>

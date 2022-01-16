@@ -1,11 +1,25 @@
-import {applyMiddleware, combineReducers, createStore} from "redux";
-import {composeWithDevTools} from "redux-devtools-extension";
-import {OrderReducer} from "./reducers/OrderReducer";
-import {ItemReducer} from "./reducers/ItemReducer";
-import {UserReducer} from "./reducers/UserReducer";
-import thunk from "redux-thunk";
+import {combineReducers, configureStore} from "@reduxjs/toolkit";
+import {itemService} from "./services/itemService";
+import {orderService} from "./services/orderService";
+import {authService} from "./services/authService";
+import {userSlice} from "./slices/userSlice";
+import {itemSlice} from "./slices/itemSlice";
+import {orderSlice} from "./slices/orderSlice";
+import {useDispatch} from "react-redux";
 
-export const rootReducer = combineReducers({items: ItemReducer, orders: OrderReducer, user: UserReducer})
-export type RootState = ReturnType<typeof rootReducer>
+export const store = configureStore({
+    reducer: combineReducers({
+        [userSlice.name]: userSlice.reducer,
+        [itemSlice.name]: itemSlice.reducer,
+        [orderSlice.name]: orderSlice.reducer,
+        [itemService.reducerPath]: itemService.reducer,
+        [orderService.reducerPath]: orderService.reducer,
+        [authService.reducerPath]: authService.reducer,
+    }),
+    middleware: (getDefaultMiddleware) =>
+        getDefaultMiddleware().concat(itemService.middleware, orderService.middleware, authService.middleware)
+})
 
-export const store = createStore(rootReducer,  composeWithDevTools(applyMiddleware(thunk)));
+export type RootState = ReturnType<typeof store.getState>
+export type AppDispatch = typeof store.dispatch
+export const useAppDispatch = () => useDispatch<AppDispatch>()

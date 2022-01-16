@@ -1,17 +1,20 @@
-import React, {FC, useState} from 'react';
+import React, {FC, useEffect, useState} from 'react';
 import {TableCell, TableRow, TextField} from "@mui/material";
-import {useDispatch} from "react-redux";
+import {useAppDispatch} from "../../Store";
+import {changeOrderItemCount} from "../../Store/slices/orderSlice";
 import {OrderItem} from "../../Models/Order";
 
 const StorageTableOrderedItemsRow: FC<{ orderItem: OrderItem, index: number }> = ({orderItem, index}) => {
-    const [{item, count}] = useState<OrderItem>(orderItem)
-    // console.log(count)
-    const dispatch = useDispatch()
-    const [value, setValue] = useState<number>(count)
+    const {item, count} = orderItem
+    const dispatch = useAppDispatch()
+    const [value, setValue] = useState<number>(1)
+    useEffect(() => {
+        setValue(count)
+    }, [count])
     const ChangeCountHandler = (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
         const value = Number(event.target.value)
         setValue(value)
-        dispatch({type: 'CHANGE_ORDER_ITEM_COUNT', payload: {item, count: value}})
+        dispatch(changeOrderItemCount({changedItem:orderItem, newCount:value}))
     }
     return (
         <TableRow>
