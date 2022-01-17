@@ -1,11 +1,12 @@
 import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/dist/query/react";
 import {Order, OrderItem} from "../../Models/Order";
 import {RootState} from "../index";
+import {baseUrl} from "./index";
 
 export const orderService = createApi({
     reducerPath: 'orderService',
     baseQuery: fetchBaseQuery({
-        baseUrl: 'http://localhost:5000/orders',
+        baseUrl: `${baseUrl}/orders`,
         prepareHeaders: (headers, {getState}) => {
             const token = (getState() as RootState).user.token;
             if (token) {
